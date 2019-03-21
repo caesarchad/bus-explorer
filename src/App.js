@@ -264,14 +264,14 @@ class App extends Component {
   updateGlobalStats() {
     this.getRemoteState(
       'globalStats',
-      `http:${BLOCK_EXPLORER_API_BASE}/global-stats`,
+      `https:${BLOCK_EXPLORER_API_BASE}/global-stats`,
     );
   }
 
   updateTxnStats() {
     this.getRemoteState(
       'txnStats',
-      `http:${BLOCK_EXPLORER_API_BASE}/txn-stats`,
+      `https:${BLOCK_EXPLORER_API_BASE}/txn-stats`,
     );
   }
 
@@ -296,7 +296,7 @@ class App extends Component {
 
     this.getRemoteState(
       'blocks',
-      `http:${BLOCK_EXPLORER_API_BASE}/blk-timeline`,
+      `https:${BLOCK_EXPLORER_API_BASE}/blk-timeline`,
       blkFun,
       10,
     );
@@ -324,7 +324,7 @@ class App extends Component {
 
     this.getRemoteState(
       'entries',
-      `http:${BLOCK_EXPLORER_API_BASE}/ent-timeline`,
+      `https:${BLOCK_EXPLORER_API_BASE}/ent-timeline`,
       entFun,
       10,
     );
@@ -352,7 +352,7 @@ class App extends Component {
 
     this.getRemoteState(
       'transactions',
-      `http:${BLOCK_EXPLORER_API_BASE}/txn-timeline`,
+      `https:${BLOCK_EXPLORER_API_BASE}/txn-timeline`,
       txnFun,
       10,
     );
@@ -388,7 +388,7 @@ class App extends Component {
   componentDidMount() {
     const self = this;
 
-    let ws = new RobustWebSocket(`ws:${BLOCK_EXPLORER_API_BASE}/`);
+    let ws = new RobustWebSocket(`wss:${BLOCK_EXPLORER_API_BASE}/`);
 
     ws.addEventListener('open', function() {
       ws.send('<client_hello>');
@@ -405,7 +405,6 @@ class App extends Component {
     this.ws = ws;
 
     let locationListener = this.handleLocationChange();
-
     history.listen(locationListener);
     locationListener(window.location);
   }
