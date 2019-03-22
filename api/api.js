@@ -49,17 +49,17 @@ let listeners = {};
 let handleRedis = type => (channel, message) => {
   let outMessage = {t: type, m: message};
 
-  getWss().clients.forEach(listeners, ws => {
-    if (ws.readyState !== WebSocket.OPEN) {
-      return;
-    }
-    ws.send(JSON.stringify(outMessage), err => {
-      // send complete - check error
-      if (err) {
-        delete listeners[ws.my_id];
-      }
+    _.forEach(listeners, ws => {
+        if (ws.readyState !== WebSocket.OPEN) {
+            return;
+        }
+        ws.send(JSON.stringify(outMessage), err => {
+            // send complete - check error
+            if (err) {
+                delete listeners[ws.my_id];
+            }
+        });
     });
-  });
 };
 
 const client = getClient();
