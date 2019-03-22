@@ -3,6 +3,7 @@ import BxDateTime from "./BxDateTime";
 import BxStatsEntityLink from "./BxStatsEntityLink";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+/*import BxStatsHelpLink from "./BxStatsHelpLink";*/
 import _ from 'lodash';
 
 class BxStatsTable extends React.Component {

@@ -1,15 +1,15 @@
 {
-  "name": "@solana/blockexplorer",
+  "name": "@solana/bus-explorer",
   "version": "0.0.0-development",
   "license": "MIT",
   "author": "Bitconch Labs, Inc",
   "homepage": "http://bitconch.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/solana-labs/blockexplorer.git"
+    "url": "https://github.com/bitconch/bus-explorer.git"
   },
   "bugs": {
-    "url": "http://github.com/solana-labs/blockexplorer/issues"
+    "url": "https://github.com/bitconch/bus-explorer/issues "
   },
   "dependencies": {
     "@solana/web3.js": "^0.14.10",
@@ -62,7 +62,7 @@
     "lint:watch": "watch 'npm run lint:fix' . --wait=1",
     "prepack": "set -ex; npm run lint; npm run build",
     "pretty": "prettier --write '{,{api,src}/**/}*.js'",
-    "re": "semantic-release --repository-url git@github.com:solana-labs/blockexplorer.git",
+    "re": "semantic-release --repository-url git@github.com:bitconch/bus-explorer.git",
     "start:api": "PORT=8960 set -ex; redis-cli ping; babel-node --presets env api/api.js",
     "start:ui": "PORT=8961 react-scripts start",
     "serve:ui": "serve -l 80 -s build",

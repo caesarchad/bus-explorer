@@ -59,21 +59,26 @@ class BxDataItem extends React.Component {
                             <ListItem key={row.id} className={classes.dataListItem}>
                                 <ListItemText>
                                     <Typography className={classes.dataTableCell}>
+                                        {/*Entry ID*/}
                                     记录ID：<BxEntityLink ent={row.id} />
                                     </Typography>
                                     <Grid style={{display: "flex"}}>
                                         <Typography className={classes.dataTableCell} style={{width: "180px"}}>
-                                        区块高度：{row.s}
+                                            {/*Block Height*/}
+                                            区块高度：{row.s}
                                         </Typography>
                                         <Typography className={classes.dataTableCell} style={{marginLeft: "20px"}}>
+                                            {/*Tick Height*/}
                                         时间戳记录数：{row.h}
                                         </Typography>
                                     </Grid>
                                     <Grid style={{display: "flex"}}>
                                         <Typography className={classes.dataTableCell} style={{width: "180px"}}>
+                                            {/*Transaction Count*/}
                                         交易数量：{row.txn_count}
                                         </Typography>
                                         <Typography className={classes.dataTableCell} style={{marginLeft: "20px"}}>
+                                            {/*Timestamp (approx)*/}
                                         发起时间：{BxDateTime.formatDateTime(row.dt, {style:BxDateTime.ISO8601_FMT, local:true})}
                                         </Typography>
                                     </Grid>

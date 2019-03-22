@@ -6,20 +6,20 @@ rootDir=$(
   node -p '
     try {
       let package_json = [
-        "../lib/node_modules/@solana/blockexplorer/package.json",
-        "../@solana/blockexplorer/package.json",
+        "../lib/node_modules/@solana/bus-explorer/package.json",
+        "../@solana/bus-explorer/package.json",
         "../package.json"
       ].find(require("fs").existsSync);
 
       assert(
-        require(package_json)["name"] === "@solana/blockexplorer",
+        require(package_json)["name"] === "@solana/bus-explorer",
         "Invalid package name in " + package_json
       );
 
       const path = require("path");
       path.resolve(path.dirname(package_json))
     } catch (err) {
-      throw new Error("Unable to locate blockexplorer directory: " + String(err));
+      throw new Error("Unable to locate bus-explorer directory: " + String(err));
     }
   '
 )

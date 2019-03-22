@@ -11,10 +11,14 @@ import WebSocket from 'ws';
 import _ from 'lodash';
 import './inbound-stream';
 import expressWs from 'express-ws';
+import http from 'http';
+import https from 'https';
 
 import config from './config';
 
-const app = express();
+const dummyApp = express();
+const httpServer = http.createServer(dummyApp);
+const httpsServer = https.createServer({}, dummyApp);
 
 const port = 8960;
 const MINUTE_MS = 60 * 1000;
@@ -23,7 +27,17 @@ function getClient() {
   return redis.createClient(config.redis);
 }
 
-expressWs(app);
+expressWs(dummyApp);
+expressWs(dummyApp, httpsServer);
+expressWs(dummyApp, httpServer, {
+    leaveRouterUntouched: false,
+    // ws server options
+    wsOptions: {
+        clientTracking: true
+    }
+});
+const {app, getWss} = expressWs(express());
+
 app.use(nocache());
 app.use(cors());
 
@@ -35,7 +49,7 @@ let listeners = {};
 let handleRedis = type => (channel, message) => {
   let outMessage = {t: type, m: message};
 
-  _.forEach(listeners, ws => {
+  getWss().clients.forEach(listeners, ws => {
     if (ws.readyState !== WebSocket.OPEN) {
       return;
     }
@@ -70,18 +84,12 @@ app.ws('/', function(ws) {
   listeners[ws.my_id] = ws;
 
   console.log(
-    new Date().toISOString() + ' ws peer [' + ws.my_id + '] connected.',
+    new Date().toISOString() + ' wss peer [' + ws.my_id + '] connected.',
   );
 
   ws.on('close', function(reasonCode, description) {
     console.log(
-      new Date().toISOString() +
-        ' ws peer [' +
-        ws.my_id +
-        '] disconnected: ' +
-        reasonCode +
-        ' ' +
-        description,
+      new Date().toISOString() + ' wss peer [' + ws.my_id + '] disconnected: ' + reasonCode + ' ' + description,
     );
     delete listeners[ws.my_id];
   });
@@ -235,5 +243,15 @@ app.get('/txn/:id', (req, res) => {
     }
   });
 });
+
+// app.get('/account/:id', (req, res) => {
+//     client.hgetall(`!ent:${req.params.id}`, (err, val) => {
+//         if(err){
+//             res.status(500).send('{"error":"server_error"}\n');
+//         }else if(val){
+//
+//         }
+//     });
+// }
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
