@@ -109,7 +109,7 @@ class BxAppBar extends React.Component {
                                     <div className={classes.searchIcon}>
                                         <SearchIcon/>
                                     </div>
-                                    <InputBase placeholder="Search…"
+                                    <InputBase placeholder="查找…"
                                         classes={{
                                             root: classes.inputRoot,
                                             input: classes.inputInput,
@@ -123,9 +123,9 @@ class BxAppBar extends React.Component {
                                     />
                                 </div>
                                 <div className={classes.grow}/>
-                                <div className={classes.sectionDesktop}>
+                                {/*<div className={classes.sectionDesktop}>
                                     <Switch checked={this.props.enabled} onChange={this.handleSwitch} color="secondary" title={(this.props.enabled ? "Pause" : "Resume") + " realtime updates"} />
-                                </div>
+                                </div>*/}
                                 <div className={classes.sectionMobile}>
                                     <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
                                         <MoreIcon/>

@@ -25,6 +25,7 @@ li {
   width: 100%;}
 
 .headerTypography {padding: 20px 30px;}
+.headerTypographyLast { width: 150px;}
 
 .cardStats {background: #2976c0;border-radius:4px;}
 .cardStatsP {color: #647273;}

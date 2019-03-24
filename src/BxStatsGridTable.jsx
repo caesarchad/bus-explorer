@@ -73,7 +73,7 @@ class BxStatsTable extends React.Component {
                     <Typography variant="h5" component="h2" className="headerTypography">
                         {/*Last Updated*/}
                         最近更新
-                        <Typography component="p">
+                        <Typography component="p" className="headerTypographyLast">
                             <BxDateTime dateTime={globalStats['!ent-last-dt']} fromNow />
                         </Typography>
                     </Typography>
