@@ -38,16 +38,15 @@ class BxTransactionChart extends React.Component {
         const {classes, txnStats} = this.props;
 
         if (_.size(txnStats) === 0) {
-            return (<Paper style={{width: "1260"}}>
+            return (<Paper className={classes.transChart}>
                 <Typography className={classes.dataTableCellTitle}>No Data Present - Loading...</Typography>
             </Paper>);
         }
-        let theLabels = _.keys(txnStats).map((x) => BxDateTime.formatDateTime(x, {style:BxDateTime.ISO8601_FMT, local:true}));
+        let theLabels = _.keys(txnStats).map((x) => BxDateTime.formatDateTime(x, {style:BxDateTime.ISO8601_FMT_MM, local:true}));
         let theData = _(txnStats).values().map((x) => parseInt(x || "0")).value();
         let data = {
             labels: theLabels,
             datasets: [{
-                /*label: "Transactions Per Minute",*/
                 label: "每分钟交易数",
                 backgroundColor: "#00d1d1",
                 borderColor: "#00d1d1",
@@ -55,12 +54,10 @@ class BxTransactionChart extends React.Component {
             }]
         };
         return (
-            <Grid container justify="center">
-                <Grid item>
-                    <Paper style={{width: "1260"}} className={classes.dataStyle}>
-                        <Bar data={data} options={barChartOptions} height={500} width={1260}/>
-                    </Paper>
-                </Grid>
+            <Grid container justify="center" className={classes.transChart}>
+                <Paper className={classes.dataStyle}>
+                    <Bar data={data} options={barChartOptions}/>
+                </Paper>
             </Grid>
         );
     }

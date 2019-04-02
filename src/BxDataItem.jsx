@@ -14,12 +14,10 @@ class BxDataItem extends React.Component {
     renderBlocks() {
         const {classes, dataItems} = this.props;
         return (
-            <Paper className={classes.dataListContainer}>
-                <Grid className={classes.dataListGrid}>
-                    <Typography variant="h6" id="tableTitle" className={classes.dataTitle} style={{textAlign: 'left',paddingTop: '10px'}}>
-                        {/*Latest Blocks*/}
-                        最新区块
-                        {/*<BxHelpLink text="Block" term="block"/>*/}
+                <Grid className={classes.dataListItemGrid}>
+                    <Typography id="tableTitle" className={classes.dataListItemTitles}>
+                        <img src="/images/icon/block.png" alt="最新区块" className={classes.dataListItemIcon}/>
+                        <Typography variant="h6" className={classes.dataListItemTitle}>最新区块</Typography>
                     </Typography>
                     <List>
                         {_.map(dataItems, row => (
@@ -40,55 +38,47 @@ class BxDataItem extends React.Component {
                         }
                     </List>
                 </Grid>
-            </Paper>
         );
     }
 
     renderEntries() {
         const {classes, dataItems} = this.props;
         return (
-            <Paper className={classes.dataListContainer}>
-                <Grid className={classes.dataListGrid}>
-                    <Typography variant="h6" id="tableTitle" className={classes.dataTitle} style={{textAlign: 'left',paddingTop: '10px'}}>
-                        {/*Latest Entries*/}
-                        最新记录
-                        {/*<BxHelpLink text="Entry" term="entry"/>*/}
-                    </Typography>
-                    <List>
-                        {_.map(dataItems, row => (
-                            <ListItem key={row.id} className={classes.dataListItem}>
-                                <ListItemText>
-                                    <Typography className={classes.dataTableCell}>
-                                        {/*Entry ID*/}
-                                    记录ID：<BxEntityLink ent={row.id} />
-                                    </Typography>
-                                    <Grid style={{display: "flex"}}>
-                                        <Typography className={classes.dataTableCell} style={{width: "180px"}}>
-                                            {/*Block Height*/}
-                                            区块高度：{row.s}
-                                        </Typography>
-                                        <Typography className={classes.dataTableCell} style={{marginLeft: "20px"}}>
-                                            {/*Tick Height*/}
-                                        时间戳记录数：{row.h}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid style={{display: "flex"}}>
-                                        <Typography className={classes.dataTableCell} style={{width: "180px"}}>
-                                            {/*Transaction Count*/}
-                                        交易数量：{row.txn_count}
-                                        </Typography>
-                                        <Typography className={classes.dataTableCell} style={{marginLeft: "20px"}}>
-                                            {/*Timestamp (approx)*/}
-                                        发起时间：{BxDateTime.formatDateTime(row.dt, {style:BxDateTime.ISO8601_FMT, local:true})}
-                                        </Typography>
-                                    </Grid>
-                                </ListItemText>
-                            </ListItem>
-                        ))
-                        }
-                    </List>
-                </Grid>
-            </Paper>
+            <Grid className={classes.dataListItemGrid}>
+                <Typography variant="h6" id="tableTitle" className={classes.dataListItemTitles}>
+                    <img src="/images/icon/entry.png" alt="最新记录" className={classes.dataListItemIcon}/>
+                    <Typography variant="h6" className={classes.dataListItemTitle}>最新记录</Typography>
+                </Typography>
+                <List>
+                    {_.map(dataItems, row => (
+                        <ListItem key={row.id} className={classes.dataListItem}>
+                            <ListItemText>
+                                <Typography className={classes.dataTableCell}>
+                                    {/*Entry ID*/}
+                                记录ID：<BxEntityLink ent={row.id} />
+                                </Typography>
+                                <Typography className={classes.dataTableCell} >
+                                    {/*Block Height*/}
+                                    区块高度：{row.s}
+                                </Typography>
+                                <Typography className={classes.dataTableCell} >
+                                    {/*Tick Height*/}
+                                时间戳记录数：{row.h}
+                                </Typography>
+                                <Typography className={classes.dataTableCell} >
+                                    {/*Transaction Count*/}
+                                交易数量：{row.txn_count}
+                                </Typography>
+                                <Typography className={classes.dataTableCell} >
+                                    {/*Timestamp (approx)*/}
+                                发起时间：{BxDateTime.formatDateTime(row.dt, {style:BxDateTime.ISO8601_FMT, local:true})}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    ))
+                    }
+                </List>
+            </Grid>
         );
     }
 
@@ -97,9 +87,7 @@ class BxDataItem extends React.Component {
         return (
             <Paper>
                 <Typography variant="h6" id="tableTitle" className={classes.dataTitle} style={{textAlign: 'left',paddingTop: '10px'}}>
-                    {/*Sample Transactions (updated every 10s)*/}
                     最新交易(每10s更新)
-                    {/*<BxHelpLink text="Transaction" term="transaction" />*/}
                 </Typography>
                 <List>
                     {_.map(dataItems, row => (
