@@ -1,18 +1,18 @@
 {
-  "name": "@solana/blockexplorer",
+  "name": "@solana/bus-explorer",
   "version": "0.0.0-development",
   "license": "MIT",
   "author": "Bitconch Labs, Inc",
   "homepage": "http://bitconch.io/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/solana-labs/blockexplorer.git"
+    "url": "https://github.com/bitconch/bus-explorer.git"
   },
   "bugs": {
-    "url": "http://github.com/solana-labs/blockexplorer/issues"
+    "url": "https://github.com/bitconch/bus-explorer/issues "
   },
   "dependencies": {
-    "@solana/web3.js": "^0.14.10",
+    "@solana/web3.js": "^0.14.17",
     "base-58": "^0.0.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
@@ -24,15 +24,15 @@
     "serve": "^10.1.2"
   },
   "devDependencies": {
-    "@material-ui/core": "^3.9.0",
+    "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^9.0.0",
     "babel-preset-env": "^1.7.0",
-    "chart.js": "^2.7.3",
-    "eslint": "^5.14.1",
-    "eslint-config-react-app": "^3.0.7",
+    "chart.js": "^2.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-react-app": "^3.0.8",
     "eslint-plugin-flowtype": "^2.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
@@ -41,10 +41,10 @@
     "moment": "^2.24.0",
     "prettier": "^1.16.4",
     "qrcode.react": "^0.9.3",
-    "react": "^16.8.3",
-    "react-chartjs-2": "^2.7.4",
-    "react-dom": "^16.8.3",
-    "react-router-dom": "^4.3.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-chartjs-2": "^2.7.6",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.5",
     "robust-websocket": "^1.0.0",
     "semantic-release": "^15.13.3",
@@ -62,7 +62,7 @@
     "lint:watch": "watch 'npm run lint:fix' . --wait=1",
     "prepack": "set -ex; npm run lint; npm run build",
     "pretty": "prettier --write '{,{api,src}/**/}*.js'",
-    "re": "semantic-release --repository-url git@github.com:solana-labs/blockexplorer.git",
+    "re": "semantic-release --repository-url git@github.com:bitconch/bus-explorer.git",
     "start:api": "PORT=8960 set -ex; redis-cli ping; babel-node --presets env api/api.js",
     "start:ui": "PORT=8961 react-scripts start",
     "serve:ui": "serve -l 80 -s build",

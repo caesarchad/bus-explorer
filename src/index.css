@@ -24,7 +24,13 @@ li {
 .sideBySideHeader {display:flex; flex-direction:row; vertical-align:top;background-color: #fff;
   width: 100%;}
 
-.headerTypography {padding: 20px 30px;}
+.headerTypography {
+  word-break: break-word;
+  width: 100%;
+  /*padding: 20px 0 30px 0;*/
+  text-align: -webkit-center;
+}
+.headerTypographyLast { min-width: 140px;}
 
 .cardStats {background: #2976c0;border-radius:4px;}
 .cardStatsP {color: #647273;}

@@ -35,15 +35,24 @@ Usually log file is defined in /etc/redis/redis.conf
 
 default value ```logfile /var/log/redis/redis-server.log```
 
-
-* Install dependencies
-go to the project root folder
+## install && start explorer
+1. go to go/src/github.com/bitconch/
 ```bash
-yarn
-
+cd go/src/github.com/bitconch/
+```
+2. clone explorer
+```bash
+git clone https://github.com/bitconch/bus-explorer
 ```
 
-* Start 
+3. build
+go to the project root folder
+```bash
+cd bus-explorer
+yarn
+```
+
+4. Start 
 ```bash
 yarn start:api
 ```

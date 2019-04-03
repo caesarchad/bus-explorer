@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+// import IconButton from '@material-ui/core/IconButton';
+// import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 //import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 // import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import Switch from '@material-ui/core/Switch';
+// import MoreIcon from '@material-ui/icons/MoreVert';
+// import Switch from '@material-ui/core/Switch';
 
 
 class BxAppBar extends React.Component {
@@ -100,16 +100,16 @@ class BxAppBar extends React.Component {
                     <Grid container justify="center">
                         <Grid item style={{width: "1520px"}}>
                             <Toolbar>
-                                <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                                <div>
                                     <a href="http://bitconch.io" target="_new">
                                         <img src="/bitconch-logo.svg" alt="Bitconch Logo" style={{"width": "54px"}}/>
                                     </a>
-                                </Typography>
+                                </div>
                                 <div className={classes.search}>
                                     <div className={classes.searchIcon}>
                                         <SearchIcon/>
                                     </div>
-                                    <InputBase placeholder="Search…"
+                                    <InputBase placeholder="查找…"
                                         classes={{
                                             root: classes.inputRoot,
                                             input: classes.inputInput,
@@ -123,14 +123,14 @@ class BxAppBar extends React.Component {
                                     />
                                 </div>
                                 <div className={classes.grow}/>
-                                <div className={classes.sectionDesktop}>
+                                {/*<div className={classes.sectionDesktop}>
                                     <Switch checked={this.props.enabled} onChange={this.handleSwitch} color="secondary" title={(this.props.enabled ? "Pause" : "Resume") + " realtime updates"} />
                                 </div>
                                 <div className={classes.sectionMobile}>
                                     <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
                                         <MoreIcon/>
                                     </IconButton>
-                                </div>
+                                </div>*/}
                             </Toolbar>
                         </Grid>
                     </Grid>

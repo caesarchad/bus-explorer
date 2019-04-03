@@ -137,11 +137,10 @@ class BxDataTable extends React.Component {
     renderTransactions() {
         const {classes, dataItems} = this.props;
         return (
-            <Paper>
-                <Typography variant="h6" id="tableTitle" className={classes.dataTitle} style={{textAlign: 'left'}}>
-                    {/*Sample Transactions (updated every 10s)*/}
-                    最新交易(每10s更新)
-                    {/*<BxHelpLink text="Transaction" term="transaction" />*/}
+            <Paper className={classes.dataListGrid}>
+                <Typography variant="h6" id="tableTitle" className={classes.dataListItemTitles}>
+                    <img src="/images/icon/transaction.png" alt="最新交易" className={classes.dataListItemIcon}/>
+                    <Typography variant="h6" className={classes.dataListItemTitle}>最新交易(每10s更新)</Typography>
                 </Typography>
                 <Table>
                     <TableHead>
@@ -189,7 +188,7 @@ class BxDataTable extends React.Component {
     }
 
     render() {
-        const {classes, dataType} = this.props;
+        const {dataType} = this.props;
 
         if (dataType === 'blk') {
             return this.renderBlocks();
