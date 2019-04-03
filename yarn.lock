@@ -983,10 +983,10 @@
     into-stream "^4.0.0"
     lodash "^4.17.4"
 
-"@solana/web3.js@^0.14.10":
-  version "0.14.10"
-  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-0.14.10.tgz#d8b60573308d662cfa61d05ac52d404232568753"
-  integrity sha512-YkVlYXMu0GDf7Zf/ZBO3SbAZUK678x/FKwU/VJQoN7aaBGw8JsjIfQ57iWvib1PG2jUTK0MbNFUBnmP4V/FmJA==
+"@solana/web3.js@^0.14.17":
+  version "0.14.17"
+  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-0.14.17.tgz#b417a52c45dd4048bb561ff9fe98eeb889a5949c"
+  integrity sha512-55fCjl0hqHtJ907s3eOa302n4THBhLRNjdOEhwpblCaX+2rsDma4mT1Sa1z1dGcQnm1+5nO2QtG+lF7u3miR3Q==
   dependencies:
     "@babel/runtime" "^7.3.1"
     bn.js "^4.11.8"
