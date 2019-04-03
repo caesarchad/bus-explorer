@@ -12,6 +12,7 @@ npm install --save -g solgraph --unsafe-perm=true --allow-root
 install nodejs and redis
 ```bash
 
+apt-get --assume-yes install redis
 
 ```
 
@@ -62,3 +63,46 @@ yarn start:ui
 ```
 
 run the bus instance, refer to bitcon/bus
+
+
+### Anything Goes Wrong
+
+1. Remove influxdb
+```
+sudo apt-get remove influxdb
+
+sudo apt-get remove --auto-remove influxdb
+
+sudo apt-get purge influxdb
+
+sudo apt-get purge --auto-remove influxdb
+```
+
+
+2. Remove Redis
+
+```
+apt-get purge --auto-remove redis-server
+
+```
+
+3. Install Redis Server Again
+
+```
+apt-get install redis-server
+
+```
+
+4. Change The File Permission 
+
+
+5. Update the Configuration File for Redis
+
+```
+vi /etc/redis/redis.conf
+
+```
+
+Remove ```bind 127.0.0.1 ::1``` with ```bind 127.0.0.1```
+
+
