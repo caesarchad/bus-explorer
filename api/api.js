@@ -36,7 +36,7 @@ expressWs(dummyApp, httpServer, {
         clientTracking: true
     }
 });
-const {app, getWss} = expressWs(express());
+const app = expressWs(express());
 
 app.use(nocache());
 app.use(cors());
