@@ -35,7 +35,7 @@ const styles = theme => ({
     marginRight: 20,
   },
   title: {
-    display: 'none',
+    display: 'block',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -53,11 +53,8 @@ const styles = theme => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: '#fff',
-    /*'&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },*/
     marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
+    marginLeft: 10,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing.unit * 3,
@@ -65,7 +62,7 @@ const styles = theme => ({
     },
   },
   searchIcon: {
-    width: theme.spacing.unit * 7,
+    width: '35px',
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -81,7 +78,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 8,
+    paddingLeft: '32px',
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -101,7 +98,11 @@ const styles = theme => ({
     },
   },
     dataStyle: {
-      backgroundColor: '#f4f5f9',
+        position: "relative",
+        margin: "auto",
+        width: "100%",
+        height: "100%",
+        backgroundColor: '#f4f5f9',
     },
     dataTitle: {
         color: '#647273',
@@ -110,6 +111,7 @@ const styles = theme => ({
     dataTableCellTitle: {
         color: '#647273',
         fontSize: '0.95rem',
+        padding: '4px 24px 4px 24px',
     },
     dataTableCell: {
       color: '#647273',
@@ -119,36 +121,92 @@ const styles = theme => ({
     },
     sideBySideHeader: {
         width: "100%",
+        flex: "0 0 50%",
+        padding: '20px 0 20px 0',
+        [theme.breakpoints.up('md')]: {
+          flex: 'auto',
+            margin: '0 5px 0 5px',
+        }
+    },
+    statsGridIcon: {
+        width: "40px",
+        height: "40px",
+    },
+    dataListItemTitles: {
+        color: '#647273',
+        paddingLeft: '10px',
+        display: "flex",
+        textAlign: "left",
+        paddingTop: "10px",
+    },
+    dataListItemTitle: {
+        marginLeft: "10px",
+        lineHeight: "30px",
+    },
+    dataListItemIcon: {
+        width: "30px",
+        height: "30px",
     },
     sideBySideHeaderSecond: {
-        minWidth: "1200px",
-        backgroundColor: '#fff',
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        borderRadius: "4px",
-        marginLeft: "50px",
-        marginRight: "50px",
-        boxShadow: "0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)",
+        flexWrap: "wrap",
+        width: "calc(100% + 16px)",
+        margin: "-8px",
+        [theme.breakpoints.up('md')]: {
+            backgroundColor: '#fff',
+            flexWrap: "unset",
+            flexDirection: "row",
+            justifyContent: "center",
+            borderRadius: "4px",
+            boxShadow: "0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)",
+        }
     },
     dataListContainer: {
         backgroundColor: '#f4f5f9',
-        width: "45%",
+        width: "100%",
         paddingLeft: "15px",
         paddingRight: "15px",
         boxShadow: "none",
     },
     dataListGrid: {
+        width: "100%",
         backgroundColor: '#fff',
         borderRadius: '4px',
         color: '#647273',
+        [theme.breakpoints.up('md')]: {
+            width: "100%",
+            backgroundColor: '#fff',
+            borderRadius: '4px',
+            color: '#647273',
+        }
+    },
+    dataListItemGrid: {
+        width: "100%",
+        backgroundColor: '#fff',
+        borderRadius: '4px',
+        color: '#647273',
+        marginBottom: "10px",
+        boxShadow: "0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12)",
+        [theme.breakpoints.up('md')]: {
+            width: "100%",
+            backgroundColor: '#fff',
+            borderRadius: '4px',
+            color: '#647273',
+            marginBottom: "0px",
+            flex: '0 0 50%',
+        }
     },
     dataListItem: {
+        wordBreak: 'break-word',
         border: '1px solid #DFD7CA',
         borderTop: '0',
         borderLeft: '0',
         borderRight: '0',
         borderColor: '##EEEEEE',
+    },
+    transChart: {
+      width: "calc(100% + 16px)",
+        margin: "-8px",
     }
 });
 
@@ -577,24 +635,22 @@ class App extends Component {
             <div>
               <BxDialogThemed selectedValue={this.state.selectedValue} open={this.state.dialogOpen} onClose={this.handleDialogClose}/>
             </div>
-            <p />
-            <BxStatsGridTableThemed globalStats={this.state.globalStats} />
-            <p />
-            <BxTransactionChartThemed txnStats={this.state.txnStats} />
-            <p/>
-            <Grid container spacing={16} justify="center">
-                <Grid item style={{width: '100%', minWidth: '1260px',display: 'flex', justifyContent: 'center'}}>
-                  <BxDataItemThemed dataType="ent" dataItems={this.state.entries}/>
-                  <BxDataItemThemed dataType="blk" dataItems={this.state.blocks}/>
-                </Grid>
-            </Grid>
-            <p />
-            <Grid container spacing={16} justify="center">
-              <Grid item style={{minWidth: '1260px'}}>
-                <BxDataTableThemed dataType="txn" dataItems={this.state.transactions}/>
+            <div style={{marginLeft:'20px',marginRight:'20px'}}>
+              <p />
+              <BxStatsGridTableThemed globalStats={this.state.globalStats} />
+              <p />
+              <BxTransactionChartThemed txnStats={this.state.txnStats} />
+              <p/>
+              <Grid container spacing={16} justify="center">
+                    <BxDataItemThemed dataType="ent" dataItems={this.state.entries}/>
+                    <BxDataItemThemed dataType="blk" dataItems={this.state.blocks}/>
               </Grid>
-            </Grid>
-            <p />
+              <p />
+              <Grid container spacing={16} justify="center">
+                  <BxDataTableThemed dataType="txn" dataItems={this.state.transactions}/>
+              </Grid>
+              <p />
+            </div>
           </div>
         </Router>
       </MuiThemeProvider>

@@ -5,7 +5,7 @@ import Link from '@material-ui/core/Link';
 class BxStatsEntityLink extends React.Component {
     renderNode() {
         return (
-            <code title={this.props.node}>{this.props.node.substring(0, 22) + "\u2026"}</code>
+            <code title={this.props.node}>{this.props.node.substring(0, 20) + "\u2026"}</code>
         );
     }
 
