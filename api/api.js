@@ -17,7 +17,7 @@ import config from './config';
 
 const app = express();
 
-const port = 3001;
+const port = 8960;
 const MINUTE_MS = 60 * 1000;
 
 function getClient() {
