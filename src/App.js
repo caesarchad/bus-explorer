@@ -322,14 +322,14 @@ class App extends Component {
   updateGlobalStats() {
     this.getRemoteState(
       'globalStats',
-      `https:${BLOCK_EXPLORER_API_BASE}/global-stats`,
+      `http:${BLOCK_EXPLORER_API_BASE}/global-stats`,
     );
   }
 
   updateTxnStats() {
     this.getRemoteState(
       'txnStats',
-      `https:${BLOCK_EXPLORER_API_BASE}/txn-stats`,
+      `http:${BLOCK_EXPLORER_API_BASE}/txn-stats`,
     );
   }
 
@@ -354,7 +354,7 @@ class App extends Component {
 
     this.getRemoteState(
       'blocks',
-      `https:${BLOCK_EXPLORER_API_BASE}/blk-timeline`,
+      `http:${BLOCK_EXPLORER_API_BASE}/blk-timeline`,
       blkFun,
       10,
     );
@@ -382,7 +382,7 @@ class App extends Component {
 
     this.getRemoteState(
       'entries',
-      `https:${BLOCK_EXPLORER_API_BASE}/ent-timeline`,
+      `http:${BLOCK_EXPLORER_API_BASE}/ent-timeline`,
       entFun,
       10,
     );
@@ -410,7 +410,7 @@ class App extends Component {
 
     this.getRemoteState(
       'transactions',
-      `https:${BLOCK_EXPLORER_API_BASE}/txn-timeline`,
+      `http:${BLOCK_EXPLORER_API_BASE}/txn-timeline`,
       txnFun,
       10,
     );
