@@ -1,6 +1,6 @@
 /*
   This component is a Node.JS service that listens for events from
-  the Bitconch EntryStream class. It runs a main event loop listening to
+  the Solana EntryStream class. It runs a main event loop listening to
   a TCP, UDP, and/or Unix Domain Socket and dispatches events to one
   or more handlers (typically Redis for event aggregation and realtime
   streaming).
@@ -31,7 +31,7 @@ class BridgeFn {
       outMessage.h = inMessage.h;
       outMessage.s = inMessage.s;
       outMessage.l = inMessage.l;
-      outMessage.id = b58e(inMessage.entry.id);
+      outMessage.hash = b58e(inMessage.entry.hash);
 
       outMessage.transactions = _.map(inMessage.entry.transactions, x => {
         let txn = Transaction.from(Buffer.from(x));
@@ -41,7 +41,7 @@ class BridgeFn {
         tx.h = outMessage.h;
         tx.id = b58e(txn.signatures[0].signature);
         tx.s = outMessage.s;
-        tx.e = outMessage.id;
+        tx.e = outMessage.hash;
         tx.signatures = _.map(txn.signatures, y => {
           return {signature: b58e(y.signature), public_key: y.publicKey._bn};
         });
@@ -50,10 +50,10 @@ class BridgeFn {
           let inst = {};
 
           inst.keys = _.map(y.keys, z => {
-            return z._bn;
+            return z.toBase58();
           });
-          inst.program_id = y.programId._bn;
-          inst.userdata = y.userdata.data;
+          inst.program_id = y.programId.toBase58();
+          inst.data = b58e(y.data);
 
           return inst;
         });
@@ -69,7 +69,7 @@ class BridgeFn {
       outMessage.h = inMessage.h;
       outMessage.s = inMessage.s;
       outMessage.l = inMessage.l;
-      outMessage.id = inMessage.id;
+      outMessage.hash = inMessage.hash;
     }
 
     return outMessage;
@@ -78,10 +78,11 @@ class BridgeFn {
 
 class RedisHandler {
   constructor(props) {
-    this.innerClient = redis.createClient({
-      host: props.host,
-      port: props.port,
-    });
+    const config = props.path
+      ? {path: props.path}
+      : {host: props.host, port: props.port};
+
+    this.innerClient = redis.createClient(config);
 
     this.process = this.process.bind(this);
   }
@@ -90,29 +91,35 @@ class RedisHandler {
     const txn_sec = message.dt.substring(0, 19);
     const txn_min = message.dt.substring(0, 16);
     const txn_hour = message.dt.substring(0, 13);
+    const txn_day = message.dt.substring(0, 10);
 
     let commands = [];
 
     if (message.t === 'block') {
       const msgJson = JSON.stringify(message);
-      let blkMsg = `${message.h}#${message.l}#${message.s}#${message.dt}#${
-        message.id
-      }`;
+      let blkMsg = [
+        message.h,
+        message.l,
+        message.s,
+        message.dt,
+        message.hash,
+      ].join('#');
+
       commands.push(['lpush', '!blk-timeline', blkMsg]);
       commands.push(['publish', '@blocks', blkMsg]);
 
-      commands.push(['set', '!blk-last-id', message.id]);
+      commands.push(['set', '!blk-last-id', message.hash]);
       commands.push(['set', '!blk-last-slot', message.s]);
       commands.push([
         'hmset',
-        `!blk:${message.id}`,
+        `!blk:${message.hash}`,
         {
           t: 'blk',
           dt: message.dt,
           h: message.h,
           l: message.l,
           s: message.s,
-          id: message.id,
+          id: message.hash,
           data: msgJson,
         },
       ]);
@@ -125,8 +132,8 @@ class RedisHandler {
 
         if (result && result.length > 0) {
           _.forEach(result, x => {
-            commands.push(['hset', `!ent:${x}`, 'block_id', message.id]);
-            commands.push(['sadd', `!blk-ent:${message.id}`, x]);
+            commands.push(['hset', `!ent:${x}`, 'block_id', message.hash]);
+            commands.push(['sadd', `!blk-ent:${message.hash}`, x]);
           });
           this.innerClient.batch(commands).exec(err2 => {
             // fire and forget
@@ -146,33 +153,39 @@ class RedisHandler {
       const msgJson = JSON.stringify(message);
 
       commands.push(['set', '!ent-last-leader', message.l]);
-      commands.push(['set', '!ent-last-id', message.id]);
+      commands.push(['set', '!ent-last-id', message.hash]);
       commands.push(['set', '!ent-last-dt', message.dt]);
       commands.push(['set', '!ent-height', message.h]);
 
-      // store entry data under entry id
+      // store entry data under entry hash
       commands.push([
         'hmset',
-        `!ent:${message.id}`,
+        `!ent:${message.hash}`,
         {
           t: 'ent',
           dt: message.dt,
           h: message.h,
           l: message.l,
           s: message.s,
-          id: message.id,
+          id: message.hash,
           data: msgJson,
         },
       ]);
 
       // append block height:dt:id to timeline
-      let entMsg = `${message.h}#${message.l}#${message.s}#${message.dt}#${
-        message.id
-      }#${txCount}`;
+      let entMsg = [
+        message.h,
+        message.l,
+        message.s,
+        message.dt,
+        message.hash,
+        txCount,
+      ].join('#');
+
       commands.push(['lpush', '!ent-timeline', entMsg]);
       commands.push(['publish', '@entries', entMsg]);
 
-      commands.push(['sadd', `!ent-by-slot:${message.s}`, message.id]);
+      commands.push(['sadd', `!ent-by-slot:${message.s}`, message.hash]);
 
       // store transaction data under transaction id
       _.forEach(txns, txn => {
@@ -183,7 +196,7 @@ class RedisHandler {
         tx.s = message.s;
         tx.dt = message.dt;
         tx.id = txn.id;
-        tx.entry_id = message.id;
+        tx.entry_id = message.hash;
         tx.instructions = txn.instructions;
         tx.fee = txn.fee;
         tx.last_id = txn.last_id;
@@ -207,12 +220,28 @@ class RedisHandler {
         ]);
 
         // append block hexHeight:dt:id to timeline
-        let txnMsg = `${message.h}#${message.l}#${message.s}#${message.dt}#${
-          message.id
-        }#${tx.id}`;
-        commands.push(['sadd', `!ent-txn:${message.id}`, tx.id]);
+        let txnMsg = [
+          message.h,
+          message.l,
+          message.s,
+          message.dt,
+          message.hash,
+          tx.instructions[0].program_id,
+          tx.instructions[0].keys.join(','),
+          tx.id,
+        ].join('#');
+        commands.push(['sadd', `!ent-txn:${message.hash}`, tx.id]);
         commands.push(['lpush', '!txn-timeline', txnMsg]);
-        commands.push(['publish', '@transactions', txnMsg]);
+        commands.push([
+          'lpush',
+          `!txns-by-prgid-timeline:${tx.instructions[0].program_id}`,
+          txnMsg,
+        ]);
+        commands.push([
+          'publish',
+          `@program_id:${tx.instructions[0].program_id}`,
+          txnMsg,
+        ]);
       });
 
       if (txCount > 0) {
@@ -224,6 +253,9 @@ class RedisHandler {
 
         // increment txn hour count
         commands.push(['incrby', `!txn-per-hour:${txn_hour}`, txCount]);
+
+        // increment txn day count
+        commands.push(['incrby', `!txn-per-day:${txn_day}`, txCount]);
 
         // increment txn all-time count
         commands.push(['incrby', `!txn-count`, txCount]);
@@ -288,7 +320,7 @@ if (UDP_ENABLED) {
         realMessage.s,
         realMessage.h,
         realMessage.t,
-        realMessage.id,
+        realMessage.hash,
         txCount,
         'took ' + (t2 - t1) + 'ms',
       ].join(', '),
@@ -335,7 +367,7 @@ function makeServer() {
           realMessage.s,
           realMessage.h,
           realMessage.t,
-          realMessage.id,
+          realMessage.hash,
           txCount,
           'took ' + (t2 - t1) + 'ms',
         ].join(', '),
