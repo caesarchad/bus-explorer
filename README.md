@@ -112,4 +112,10 @@ vi /etc/redis/redis.conf
 
 Remove ```bind 127.0.0.1 ::1``` with ```bind 127.0.0.1```
 
+6. Increase the number of file being watched for ENOSPC error
+
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
 
