@@ -95,6 +95,13 @@ apt-get install redis-server
 
 4. Change The File Permission 
 
+```
+
+sudo mkdir /var/run/redis
+sudo chown redis /var/run/redis
+
+```
+
 
 5. Update the Configuration File for Redis
 
